@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Language" content="pl">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ANTAŁEX - Formularz Zamówienia</title>
+
+  <style>
+
+    body{
+      margin:0;
+      padding:0;
+      background:#f3f3f3;
+      font-family:Arial,sans-serif;
+    }
+
+    .container{
+      max-width:720px;
+      margin:40px auto;
+      background:#fff;
+      padding:35px;
+      border-radius:15px;
+      box-shadow:0 0 15px rgba(0,0,0,0.1);
+    }
+
+    .logo{
+      text-align:center;
+      font-size:42px;
+      font-weight:bold;
+      color:#ff7a00;
+      margin-bottom:25px;
+      letter-spacing:2px;
+    }
+
+    h1{
+      text-align:center;
+      color:#111;
+      margin-bottom:35px;
+    }
+
+    .row{
+      display:flex;
+      gap:15px;
+    }
+
+    .row .form-group{
+      flex:1;
+    }
+
+    .form-group{
+      margin-bottom:20px;
+    }
+
+    label{
+      display:block;
+      margin-bottom:8px;
+      font-weight:bold;
+      color:#222;
+    }
+
+    input,
+    textarea{
+      width:100%;
+      padding:14px;
+      border:1px solid #ccc;
+      border-radius:10px;
+      box-sizing:border-box;
+      font-size:16px;
+    }
+
+    textarea{
+      min-height:110px;
+      resize:vertical;
+    }
+
+    button{
+      width:100%;
+      padding:16px;
+      background:#ff7a00;
+      color:#fff;
+      border:none;
+      border-radius:10px;
+      font-size:18px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    button:hover{
+      background:#e56d00;
+    }
+
+    .checkbox-group{
+      margin-bottom:20px;
+      font-size:14px;
+      color:#333;
+    }
+
+    .checkbox-group input{
+      width:auto;
+      margin-right:10px;
+    }
+
+    .info{
+      margin-top:25px;
+      text-align:center;
+      color:#666;
+      font-size:14px;
+    }
+
+    .footer{
+      margin-top:35px;
+      padding-top:20px;
+      border-top:1px solid #ddd;
+      text-align:center;
+      color:#666;
+      font-size:13px;
+      line-height:1.8;
+    }
+
+    @media(max-width:700px){
+
+      .container{
+        margin:15px;
+        padding:25px;
+      }
+
+      .row{
+        flex-direction:column;
+      }
+
+      .logo{
+        font-size:34px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="logo">
+    =Antalex=
+  </div>
+
+  <h1>Formularz Zamówienia Pobraniowego</h1>
+
+  <form
+    id="orderForm"
+    target="hidden_iframe"
+    action="https://script.google.com/macros/s/AKfycbwndA3I0ElW7At_iXndnWCaTVJAmpkwh4lWWOV7896b4NiB4W38RiuKFLlj7xrc0GmD/exec"
+    method="POST"
+    onsubmit="submitted=true; return validateForm();">
+
+    <div class="row">
+
+      <div class="form-group">
+        <label>Imię i Nazwisko</label>
+        <input type="text" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <label>Nazwa firmy (opcjonalnie)</label>
+        <input type="text" name="company">
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="form-group">
+        <label>Miejscowość / Ulica</label>
+        <input type="text" name="address" required>
+      </div>
+
+      <div class="form-group">
+        <label>Numer domu / mieszkania</label>
+        <input type="text" name="house" required>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="form-group">
+        <label>Kod pocztowy</label>
+
+        <input
+          type="text"
+          name="postal"
+          maxlength="6"
+          placeholder="00-000"
+          oninput="formatPostalCode(this)"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label>Poczta</label>
+        <input type="text" name="city" required>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="form-group">
+        <label>Numer telefonu</label>
+        <input type="tel" name="phone" required>
+      </div>
+
+      <div class="form-group">
+        <label>Adres e-mail (opcjonalnie)</label>
+        <input type="email" name="email">
+      </div>
+
+    </div>
+
+    <div class="form-group">
+      <label>NIP (opcjonalnie)</label>
+      <input type="text" name="nip">
+    </div>
+
+    <div class="form-group">
+      <label>VIN auta</label>
+
+      <input
+        type="text"
+        name="vin"
+        minlength="17"
+        maxlength="17"
+        pattern="[A-HJ-NPR-Z0-9]{17}"
+        title="VIN musi mieć dokładnie 17 znaków"
+        style="text-transform:uppercase"
+        oninput="this.value=this.value.toUpperCase()"
+        required>
+    </div>
+
+    <div class="form-group">
+      <label>Model auta</label>
+      <input type="text" name="model" required>
+    </div>
+
+    <div class="form-group">
+      <label>Dodatkowe informacje (opcjonalnie)</label>
+      <textarea name="notes"></textarea>
+    </div>
+
+    <div class="checkbox-group">
+      <label>
+        <input type="checkbox" id="confirmMail">
+        Chcę otrzymać potwierdzenie zamówienia na adres e-mail
+      </label>
+    </div>
+
+    <div class="checkbox-group">
+      <label>
+        <input type="checkbox" required>
+        Potwierdzam poprawność danych zamówienia
+      </label>
+    </div>
+
+    <button type="submit">
+      Wyślij zamówienie
+    </button>
+
+  </form>
+
+  <iframe
+    name="hidden_iframe"
+    id="hidden_iframe"
+    style="display:none;"
+    onload="if(submitted){window.location='dziekujemy.html';}">
+  </iframe>
+
+  <div class="info">
+    Po wysłaniu formularza zamówienie zostanie przekazane do realizacji.
+  </div>
+
+  <div class="footer">
+    <strong>ANTAŁEX Sp. z.o.o.</strong><br>
+    Mokre 77, 88-306 Dąbrowa<br>
+    NIP: 557-17-02-850<br>
+    Tel: +48 504 252 439
+  </div>
+
+</div>
+
+<script>
+
+let submitted = false;
+
+function validateForm(){
+
+  const email = document.querySelector('input[name="email"]').value;
+  const checkbox = document.getElementById('confirmMail');
+
+  if(email !== "" && !checkbox.checked){
+
+    alert("Jeśli podajesz adres e-mail, zaznacz zgodę na otrzymanie potwierdzenia.");
+
+    return false;
+  }
+
+  return true;
+}
+
+function formatPostalCode(input){
+
+  let value = input.value.replace(/[^0-9]/g,'');
+
+  if(value.length > 2){
+    value = value.slice(0,2) + '-' + value.slice(2,5);
+  }
+
+  input.value = value;
+}
+
+</script>
+
+</body>
+</html>
